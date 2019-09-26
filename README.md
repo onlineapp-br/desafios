@@ -1,4 +1,4 @@
-# Desafios Online para Certificação 70-483 smiley:@mentions
+# Desafios Online para Certificação 70-483
 Este é o github da OnlineApp para você que deseja submeter os desafios aprendidos nos treinamentos para que possamos lhe dar um feedback. :facepunch:
 
 ## Como enviar meu código?
