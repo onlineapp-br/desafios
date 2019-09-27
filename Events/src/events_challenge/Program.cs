@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace events_challenge
 {
@@ -18,12 +20,20 @@ namespace events_challenge
 
             // man, isso aqui demora...
             // preciso saber quando cada mensagem terminar
-            new EmailMass(message).Send();
+            var emailMass = new EmailMass(message);
+            emailMass.SendCompleted += EmailMass_SendCompleted;
+            emailMass.Send();
+        }
+
+        private static void EmailMass_SendCompleted(object sender, EmailMessage e)
+        {
+            Console.WriteLine($"Mail to {e.To} sent!");
         }
 
         public class EmailMass
         {
             private readonly List<EmailMessage> _pendings;
+            public event EventHandler<EmailMessage> SendCompleted;
 
             public EmailMass(List<EmailMessage> pendings)
             {
@@ -33,8 +43,12 @@ namespace events_challenge
             public void Send()
             {
                 var emailServer = new EmailServer();
-                foreach (var message in _pendings)
-                    emailServer.Send(message);
+
+                _pendings.AsParallel().ForAll(m =>
+                {
+                    emailServer.Send(m);
+                    SendCompleted?.Invoke(this, m);
+                });
             }
         }
 
@@ -47,7 +61,7 @@ namespace events_challenge
             }
         }
 
-        public class EmailMessage
+        public class EmailMessage : EventArgs
         {
             public EmailMessage(string from, string to)
             {
