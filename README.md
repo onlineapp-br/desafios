@@ -7,7 +7,7 @@ Para enviar seu código é simples.
 - [x] Envie um e-mail para claudemir.junior@onlineapp.com.br com o e-mail do seu usuário criado ou existente.
 - [x] Crie um Fork do projeto.
 - [x] Faça um clone do projeto Fork.
-- [x] Realize a implementação do desafio.
+- [x] Realize a implementação do desafio em cima da branch de seu nome.
 - [x] Realize o PR.
 - [x] Pronto Finalizado. :metal:
 
