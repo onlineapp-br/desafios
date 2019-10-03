@@ -15,12 +15,10 @@ namespace Challenge
     {
         static void Main(string[] args)
         {
-            var nota = new NotaFiscalServico { Numero = 1210, Chave = "NFE1023023012302103012202", CNPJ = "123456789123134", Empresa = "Online Applications" };
-            var lista = new List<NotaFiscalServico>();
-            lista.Add(nota);
+            var nota = new NotaFiscalServico { Numero = 1210, Chave = "NFE1023023012302103012202", CNPJ = "123456789123134", Empresa = "Online Applications" };            
 
             var escrever = new Escrever();
-            escrever.Log(lista);
+            escrever.Log(nota);
 
             Console.ReadKey();
         }
