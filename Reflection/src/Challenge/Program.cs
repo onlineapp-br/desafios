@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Challenge
@@ -9,28 +10,38 @@ namespace Challenge
      * Escrever uma nova opção na classe Escrever para receber qualquer objeto e retorne todas seus valores e propriedades.
      * Escrever um Metodo na class Program que execute o objeto Escrever logar de forma generica.
      */
-    
-    class Program
+
+    public class Program
     {
         static void Main(string[] args)
         {
-            var nota = new NotaFiscal { Numero = 1210, Chave = "NFE1023023012302103012202" };
+            var nota = new NotaFiscalServico { Numero = 1210, Chave = "NFE1023023012302103012202", CNPJ = "123456789123134", Empresa = "Online Applications" };
+            var lista = new List<NotaFiscalServico>();
+            lista.Add(nota);
+
             var escrever = new Escrever();
-            escrever.Log(nota);
+            escrever.Log(lista);
+
             Console.ReadKey();
-
         }
-
 
         public class Escrever
         {
-            public void Log(NotaFiscal nota)
+            public void Log<T>(T objeto)
             {
-                StringBuilder dados = new StringBuilder(string.Empty);
+                var resultado = new StringBuilder();
+                var propriedades = objeto.GetType().GetProperties();
 
-                dados.AppendLine($"{nameof(nota.Numero)}: {nota.Numero}");
-                dados.AppendLine($"{nameof(nota.Chave)}: {nota.Chave}");
-                Console.WriteLine(dados.ToString());
+                foreach (var propriedade in propriedades)
+                {
+                    var nome = propriedade.Name;
+                    var valor = propriedade.GetValue(objeto);
+                    var tipo = propriedade.PropertyType.UnderlyingSystemType.Name;
+
+                    resultado.AppendLine($"Nome: {nome}, Valor: {valor}, Tipo {tipo}");
+                }
+
+                Console.WriteLine(resultado.ToString());
             }
         }
 
@@ -47,7 +58,6 @@ namespace Challenge
             public string Chave { get; set; }
             public string Empresa { get; set; }
             public string CNPJ { get; set; }
-
         }
 
         public class NotaFiscalTransporte
