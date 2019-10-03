@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Challenge
@@ -10,36 +9,28 @@ namespace Challenge
      * Escrever uma nova opção na classe Escrever para receber qualquer objeto e retorne todas seus valores e propriedades.
      * Escrever um Metodo na class Program que execute o objeto Escrever logar de forma generica.
      */
-
-    public class Program
+    
+    class Program
     {
         static void Main(string[] args)
         {
-            var nota = new NotaFiscalServico { Numero = 1210, Chave = "NFE1023023012302103012202", CNPJ = "123456789123134", Empresa = "Online Applications" };            
-
+            var nota = new NotaFiscal { Numero = 1210, Chave = "NFE1023023012302103012202" };
             var escrever = new Escrever();
             escrever.Log(nota);
-
             Console.ReadKey();
+
         }
+
 
         public class Escrever
         {
-            public void Log<T>(T objeto)
+            public void Log(NotaFiscal nota)
             {
-                var resultado = new StringBuilder();
-                var propriedades = objeto.GetType().GetProperties();
+                StringBuilder dados = new StringBuilder(string.Empty);
 
-                foreach (var propriedade in propriedades)
-                {
-                    var nome = propriedade.Name;
-                    var valor = propriedade.GetValue(objeto);
-                    var tipo = propriedade.PropertyType.UnderlyingSystemType.Name;
-
-                    resultado.AppendLine($"Nome: {nome}, Valor: {valor}, Tipo {tipo}");
-                }
-
-                Console.WriteLine(resultado.ToString());
+                dados.AppendLine($"{nameof(nota.Numero)}: {nota.Numero}");
+                dados.AppendLine($"{nameof(nota.Chave)}: {nota.Chave}");
+                Console.WriteLine(dados.ToString());
             }
         }
 
@@ -56,6 +47,7 @@ namespace Challenge
             public string Chave { get; set; }
             public string Empresa { get; set; }
             public string CNPJ { get; set; }
+
         }
 
         public class NotaFiscalTransporte
