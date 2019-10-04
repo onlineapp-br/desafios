@@ -9,27 +9,42 @@ namespace Challenge
      * Escrever uma nova opção na classe Escrever para receber qualquer objeto e retorne todas seus valores e propriedades.
      * Escrever um Metodo na class Program que execute o objeto Escrever logar de forma generica.
      */
-    
+
     class Program
     {
         static void Main(string[] args)
         {
             var nota = new NotaFiscal { Numero = 1210, Chave = "NFE1023023012302103012202" };
-            var escrever = new Escrever();
-            escrever.Log(nota);
-            Console.ReadKey();
+            //var escrever = new Escrever();
+            //escrever.Log<NotaFiscal>(nota);
 
+            Logar<NotaFiscal>(nota);
+
+            Console.ReadKey();
         }
 
+        public static void Logar<T>(T parametro)
+        {
+            var parametros = new object[] { parametro };
+            var instancia = Activator.CreateInstance(typeof(Escrever));
+
+            var metodo = typeof(Escrever).GetMethod("Log");
+            metodo = metodo.MakeGenericMethod(parametro.GetType());
+
+            metodo.Invoke(instancia, parametros);
+        }
 
         public class Escrever
         {
-            public void Log(NotaFiscal nota)
+            public void Log<T>(T objeto)
             {
                 StringBuilder dados = new StringBuilder(string.Empty);
 
-                dados.AppendLine($"{nameof(nota.Numero)}: {nota.Numero}");
-                dados.AppendLine($"{nameof(nota.Chave)}: {nota.Chave}");
+                var propriedades = objeto.GetType().GetProperties();
+
+                foreach (var propriedade in propriedades)
+                    dados.AppendLine($"{propriedade.Name}: {propriedade.GetValue(objeto, null)}");
+
                 Console.WriteLine(dados.ToString());
             }
         }
