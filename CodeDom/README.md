@@ -1,6 +1,7 @@
 # Desafio CodeDom
 Criar a implementação de uma classe utilizanddo o CodeDom que imprime na tela a seguinte classe em um programa console.
 
+**Importante: Antes de iniciar faça um git rebase**
 ```csharp
 using System;
 
